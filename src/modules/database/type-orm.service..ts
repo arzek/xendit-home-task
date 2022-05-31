@@ -21,7 +21,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       database: this.configService.get<string>('PGDATABASE'),
       entities: [RideEntity],
       synchronize: true,
-      logging: true,
+      logging: false,
       namingStrategy: new SnakeNamingStrategy(),
     } as TypeOrmModuleOptions;
   }

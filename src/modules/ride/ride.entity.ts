@@ -15,7 +15,7 @@ export class RideEntity {
   endLat: number;
 
   @Column({ type: 'decimal', nullable: false })
-  endLong: string;
+  endLong: number;
 
   @Column({ type: 'text', nullable: false })
   riderName: string;
