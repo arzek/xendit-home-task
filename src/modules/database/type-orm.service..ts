@@ -5,6 +5,8 @@ import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
+import { RideEntity } from '../ride/ride.entity';
+
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   constructor(private readonly configService: ConfigService) {}
@@ -17,7 +19,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       username: this.configService.get<string>('PGUSER'),
       password: this.configService.get<string>('PGPASSWORD'),
       database: this.configService.get<string>('PGDATABASE'),
-      entities: [],
+      entities: [RideEntity],
+      synchronize: true,
       logging: true,
       namingStrategy: new SnakeNamingStrategy(),
     } as TypeOrmModuleOptions;
