@@ -25,4 +25,8 @@ export class RideService {
   findById(id: number): Promise<RideEntity> {
     return this.rideRepository.findOneBy({ rideID: id });
   }
+
+  async removeAll(): Promise<void> {
+    await this.rideRepository.delete({});
+  }
 }

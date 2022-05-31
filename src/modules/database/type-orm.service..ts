@@ -20,6 +20,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       password: this.configService.get<string>('PGPASSWORD'),
       database: this.configService.get<string>('PGDATABASE'),
       entities: [RideEntity],
+      keepConnectionAlive: true,
       synchronize: true,
       logging: false,
       namingStrategy: new SnakeNamingStrategy(),
