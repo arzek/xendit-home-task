@@ -2,7 +2,8 @@ import {
   Body,
   Controller,
   Get,
-  Logger,
+  Inject,
+  LoggerService,
   NotFoundException,
   Param,
   Post,
@@ -18,13 +19,15 @@ import {
   FindAllRideResponse,
   RideObject,
 } from './ride.response';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 @ApiTags('Rides')
 @Controller('rides')
 export class RideController {
   constructor(
     private readonly rideService: RideService,
-    private readonly loggerService: Logger,
+    @Inject(WINSTON_MODULE_NEST_PROVIDER)
+    private readonly loggerService: LoggerService,
   ) {}
 
   @Post()
