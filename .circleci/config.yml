@@ -6,7 +6,7 @@ jobs:
         only:
           - master
     docker:
-      - image: circleci/node:lts
+      - image: node
         environment:
           PGHOST: 127.0.0.1
           PGPORT: 5432
