@@ -2,11 +2,13 @@ import {
   Body,
   Controller,
   Get,
+  Logger,
   NotFoundException,
   Param,
   Post,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+
 import { RideDto } from './ride.dto';
 import { RideService } from './ride.service';
 
@@ -20,7 +22,10 @@ import {
 @ApiTags('Rides')
 @Controller('rides')
 export class RideController {
-  constructor(private readonly rideService: RideService) {}
+  constructor(
+    private readonly rideService: RideService,
+    private readonly loggerService: Logger,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: 'Create ride' })
@@ -33,6 +38,9 @@ export class RideController {
   @ApiResponse({ status: 400, description: 'Bad request' })
   async create(@Body() rideDto: RideDto): Promise<RideEntity> {
     const id = await this.rideService.create(rideDto);
+
+    this.loggerService.log('Success create ride', { id });
+
     return this.rideService.findById(id);
   }
 
@@ -51,6 +59,8 @@ export class RideController {
       throw new NotFoundException('Could not find any rides');
     }
 
+    this.loggerService.log('Success get all rides', { length: rides.length });
+
     return rides;
   }
 
@@ -68,6 +78,8 @@ export class RideController {
     if (!ride) {
       throw new NotFoundException('Could not find any rides');
     }
+
+    this.loggerService.log('Success get ride', { ride });
 
     return ride;
   }

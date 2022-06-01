@@ -5,7 +5,16 @@ import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
+import * as winston from 'winston';
+import { WinstonAdaptor } from 'typeorm-logger-adaptor/logger/winston';
+
 import { RideEntity } from '../ride/ride.entity';
+
+const logger = winston.createLogger({
+  level: 'debug',
+  format: winston.format.cli(),
+  transports: [new winston.transports.Console()],
+});
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -22,7 +31,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       entities: [RideEntity],
       keepConnectionAlive: true,
       synchronize: true,
-      logging: false,
+      logger: new WinstonAdaptor(logger, 'all'),
       namingStrategy: new SnakeNamingStrategy(),
     } as TypeOrmModuleOptions;
   }
