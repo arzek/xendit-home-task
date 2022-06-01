@@ -36,6 +36,7 @@ jobs:
 
       - store_artifacts:
           path: /coverage
+          destination: coverage
 
 
 workflows:
