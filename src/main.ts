@@ -3,11 +3,16 @@ import { ValidationPipe } from '@nestjs/common';
 
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { TransformInterceptor } from './modules/common/transform.interceptor';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+
+import helmet from 'helmet';
+
+import { TransformInterceptor } from './modules/common/transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.use(helmet());
 
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
