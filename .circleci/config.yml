@@ -35,7 +35,7 @@ jobs:
           command: npm run test:cov
 
       - store_artifacts:
-          path: /coverage
+          path: ./coverage
           destination: coverage
 
 
