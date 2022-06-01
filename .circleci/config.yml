@@ -1,0 +1,41 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: circleci/node:12
+        environment:
+          POSTGRES_HOST: 127.0.0.1
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: nest
+          POSTGRES_PASSWORD: 123
+          POSTGRES_DB: nest-app
+
+      - image: circleci/postgres
+        environment:
+          POSTGRES_USER: nest
+          POSTGRES_PASSWORD: 123
+          POSTGRES_DB: nest-app
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: my-project-{{ .Branch }}-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: Install Dependencies
+          command: yarn
+
+      - save_cache:
+          key: my-project-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+
+      - run:
+          name: Run E2E test
+          command: npm run test:e2e
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - test
